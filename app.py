@@ -24,7 +24,21 @@ def home():
 @app.route("/api/v1.0/precipitation")
 def about():
     print("Server received request for 'Precipitation' api call...")
-    return "Printing precipitation data..."
+
+    session = Session(engine)   
+
+    results = session.query(measurements.date, measurements.prcp).all()
+
+    session.close()
+
+    allPrcp = []
+    for date, prcp in results:
+        prcpDict = {}
+        prcpDict["date"] = date
+        prcpDict["prcp"] = prcp
+        allPrcp.append(prcpDict)
+
+    return jsonify(allPrcp)
 
 @app.route("/api/v1.0/stations")
 def getStations():
@@ -45,6 +59,8 @@ def getStations():
     print("Server received request for 'Stations' api call...")
 
     session = Session(engine)   
+
+    mostActiveStation = session.query()
 
     results = session.query(stations.name).all()
 
