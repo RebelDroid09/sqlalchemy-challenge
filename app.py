@@ -25,3 +25,34 @@ def home():
 def about():
     print("Server received request for 'Precipitation' api call...")
     return "Printing precipitation data..."
+
+@app.route("/api/v1.0/stations")
+def getStations():
+    print("Server received request for 'Stations' api call...")
+
+    session = Session(engine)   
+
+    results = session.query(stations.name).all()
+
+    session.close()
+
+    all_names = list(np.ravel(results))
+
+    return jsonify(all_names)
+
+@app.route("/api/v1.0/tobs")
+def getStations():
+    print("Server received request for 'Stations' api call...")
+
+    session = Session(engine)   
+
+    results = session.query(stations.name).all()
+
+    session.close()
+
+    all_names = list(np.ravel(results))
+
+    return jsonify(all_names)
+
+if __name__ == '__main__':
+    app.run(debug=True)
