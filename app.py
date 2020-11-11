@@ -1,3 +1,5 @@
+import numpy as np
+
 import sqlalchemy
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
@@ -5,13 +7,13 @@ from sqlalchemy import create_engine, func
 
 from flask import Flask, jsonify
 
-engine = create_engine("sqlite://Resources/hawaii.sqlite")
+engine = create_engine("sqlite:///hawaii.sqlite")
 
 Base = automap_base()
 
 Base.prepare(engine, reflect=True)
 
-measurements = Base.classes.measurement
+#measurements = Base.classes.measurement
 stations = Base.classes.station
 
 app = Flask(__name__)
@@ -19,10 +21,11 @@ app = Flask(__name__)
 @app.route("/")
 def home():
     print("Server received request for 'Home' page...")
+    sql_fetch(con)
     return "Routes available: /api/v1.0/precipitation, /api/v1.0/stations, /api/v1.0/tobs, /api/v1.0/<start>, and /api/v1.0/<start>/<end>"
 
 @app.route("/api/v1.0/precipitation")
-def about():
+def getPrecipitation():
     print("Server received request for 'Precipitation' api call...")
 
     session = Session(engine)   
@@ -38,7 +41,7 @@ def about():
         prcpDict["prcp"] = prcp
         allPrcp.append(prcpDict)
 
-    return jsonify(allPrcp)
+    return jsonify(all_passengers)
 
 @app.route("/api/v1.0/stations")
 def getStations():
@@ -55,7 +58,7 @@ def getStations():
     return jsonify(all_names)
 
 @app.route("/api/v1.0/tobs")
-def getStations():
+def getTobs():
     print("Server received request for 'Stations' api call...")
 
     session = Session(engine)   
