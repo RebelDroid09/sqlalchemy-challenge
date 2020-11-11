@@ -13,7 +13,7 @@ Base = automap_base()
 
 Base.prepare(engine, reflect=True)
 
-#measurements = Base.classes.measurement
+measurements = Base.classes.measurement
 stations = Base.classes.station
 
 app = Flask(__name__)
@@ -61,17 +61,7 @@ def getStations():
 def getTobs():
     print("Server received request for 'Stations' api call...")
 
-    session = Session(engine)   
-
-    mostActiveStation = session.query()
-
-    results = session.query(stations.name).all()
-
-    session.close()
-
-    all_names = list(np.ravel(results))
-
-    return jsonify(all_names)
+    return "Filler"
 
 if __name__ == '__main__':
     app.run(debug=True)
